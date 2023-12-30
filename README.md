@@ -6,3 +6,6 @@ O projeto tem alguns tally que preenchem databases do notion, alguns desses proj
 
 Desafio:
 Montar um front-end high-code adaptativo para esses casos
+
+Fluxos:
+https://miro.com/app/board/uXjVN-Wxcvg=/
