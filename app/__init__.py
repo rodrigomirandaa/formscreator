@@ -13,4 +13,10 @@ def create_app(config_class=Config):
 	def get_index():
 		return render_template('index.html')
 	
+	from app.api.auth import bp as auth_bp
+	app.register_blueprint(auth_bp, url_prefix='/auth')
+	
+	from app.api.questions import bp as questions_bp
+	app.register_blueprint(questions_bp, url_prefix='/questions')
+
 	return app

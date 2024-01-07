@@ -1,7 +1,7 @@
 {
   "info": {
-    "id":"teste"  ,
-    "Submitted_at":"teste"
+    "id": "teste",
+    "Submitted_at": "teste"
   },
   "pre_filled": {
     "Submission ID": "str",
@@ -19,7 +19,7 @@
     "seis": "str",
     "notion": "str"
   },
-  "adress":{
+  "adress": {
     "name": "teste",
     "postal_code": "teste",
     "city": "teste",
@@ -30,20 +30,13 @@
     "region": "teste"
   },
   "Entity": {
-    // Dados de responsabilidade
     "Declaro que as informações prestadas  no presente formulário são verdadeiras e assumo  responsabilidade pelas mesmas.": "teste",
     "Declaro que as informações prestadas  no presente formulário são verdadeiras e assumo  responsabilidade pelas mesmas. (Eu Aceito)": "teste",
-
-    // Dados do associado
     "Empresa para qual trabalha": "teste",
     "De qual dessas inciativas da Anprotec o(a) associado(a) participou?": "teste",
-
-    //  Se CNPJ dados da Instituição Associadas
     "Razão Social da Instituição Associada": "teste",
     "Nome completo do(a) associado(a)": "teste",
     "Telefone do(a) associado(a)/Instituição associada": "teste",
-   
-    // Mapped fields
     "identifier": "teste",
     "type": "teste",
     "currículum": "teste",
@@ -83,12 +76,12 @@
     "interesed_in_international_mision": "teste"
   },
   "contact": [
-      {
+    {
       "nome": "teste",
       "cargo": "teste",
       "email": "teste",
       "telefone": "teste",
-      "represtative_type":"",
+      "represtative_type": "",
       "gender": "teste"
     }
   ],
