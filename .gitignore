@@ -1,3 +1,4 @@
 .flaskenv
 *.pyc
 venv/
+.env
