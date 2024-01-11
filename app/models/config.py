@@ -8,11 +8,9 @@ def load_environment_variables(variable_name):
     return LOADED_VARIABLE
 
 def loadHeaderNotion():
-    # Carrega as variaveis de ambiente do arquivo .env
-    load_dotenv()
-
     # Credenciais da API do Notion
-    NOTION_SECRETS = os.getenv('NOTION_SECRETS')
+    NOTION_SECRETS = load_environment_variables("NOTION_SECRETS_AMEDIR")
+    
     headers = {
         "accept": "application/json",
         "Authorization":NOTION_SECRETS, 
