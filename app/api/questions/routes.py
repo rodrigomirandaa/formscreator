@@ -1,23 +1,23 @@
 from app.api.questions.utils import get_json_form, serealizer_json_forms
 from flask import jsonify, make_response
+from app.models.models import Forms
 from app.models.notion import DatabaseNotion
 from app.api.questions import bp
-import secrets
-import json
 
 @bp.route('/', methods=['GET'])
-def index():
+def get():
 	data = get_json_form()
 	properties = serealizer_json_forms(data)
 
-	form_config = {
-		"id": 0,
-		"title": "My first form",
-		"description":"My first form created by amedir",
-		"properties":properties
-	}
-	
-	return make_response(jsonify(form_config), 200)
+	form = Forms(title="My first forms", description="This is my first form in supabase storage", properties=properties)
+	response = form.send_json_to_supabase()
+
+	return make_response(jsonify(response.text ), 200)
+
+@bp.route('/<string:id>/', methods=['GET'])
+def get_by_id(id):
+	form = DatabaseNotion
+
 
 @bp.route('client/<int:id>', methods=["GET"])
 def get_client_questions(id):
