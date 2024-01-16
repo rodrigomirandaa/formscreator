@@ -1,32 +1,32 @@
 from datetime import datetime
-from app.api.questions.utils import get_json_form, serealizer_json_forms
 from app.models.notion import DatabaseNotion
 from app.extensions import supabase
-import uuid
 import json
 import io
 
 class Forms():
-    def __init__(self, title, description, properties):
-        self.id = str(uuid.uuid4())
+    def __init__(self, client_id, title, description, schema, uischema):
+        self.client_id = client_id
         self.title = title
         self.description = description
-        self.properties = properties
+        self.schema = schema
+        self.uischema = uischema
 
     def __repr__(self):
-        return '<Questions {}>'.format(self.title)
+        return '<Form {}>'.format(self.title)
     
     def serealizer(self):
-        form_data = {
-            "id": self.id,
+        json_format = {
+            "client_id": self.client_id,
             "title": self.title,
-            "description":self.description,
-            "properties":self.properties
+            "description": self.description,
+            "schema": self.schema,
+            "uischema": self.uischema
         }
 
-        return form_data
+        return json_format
     
-    def send_json_to_supabase(self):
+    def send_json_to_supabase_bucket(self):
         file_object = io.BytesIO(json.dumps(self.serealizer()).encode())
         # Obtenha o conteúdo dos bytes
         file_content = file_object.getvalue()
@@ -40,6 +40,11 @@ class Forms():
         return res
 
     def save(self):
+        data, count = supabase.table('anprotec_clientes_forms').insert(self.serealizer()).execute()
+
+        return data
+
+    def save_notion(self):
         payload = {
             "properties": {
                 "client_name": {

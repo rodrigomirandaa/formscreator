@@ -43,3 +43,57 @@ def set_forms_fields_unique(category, fields, total_questions):
 
     return form_fields_serealizer
 
+# Está função padronizará o json no formato da Biblioteca Json Forms
+def serialize_to_json_forms(form_fields):
+    schema = {
+        "type": "object",
+        "properties": {}
+    }
+
+    uischema = {
+        "type": "VerticalLayout",
+        "elements": []
+    }
+
+    for category in form_fields:
+        if category not in ["info"]:
+            if isinstance(form_fields[category], list):
+                # Handle arrays
+                array_properties = {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {}
+                    }
+                }
+
+                array_ui_element = {
+                    "type": "Group",
+                    "label": category,
+                    "elements": [
+                        {
+                            "type": "Control",
+                            "scope": "#/properties/" + category
+                        }
+                    ]
+                }
+
+                for entry in form_fields[category][0].keys():
+                    array_properties["items"]["properties"][entry] = {"type": "string", "minLength": 3}
+
+                schema["properties"][category] = array_properties
+                uischema["elements"].append(array_ui_element)
+            else:
+                # Handle non-array categories
+                category_properties = []
+                for entry in form_fields[category]:
+                    schema["properties"][entry] = {"type": "string", "minLength": 3}
+                    category_properties.append({"type": "Control", "label": entry, "scope": "#/properties/" + entry})
+
+                uischema["elements"].append({
+                    "type": "Group",
+                    "label": category,
+                    "elements": category_properties
+                })
+
+    return {"schema": schema, "uischema": uischema}

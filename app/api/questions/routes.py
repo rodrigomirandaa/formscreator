@@ -1,23 +1,27 @@
-from app.api.questions.utils import get_json_form, serealizer_json_forms
-from flask import jsonify, make_response
-from app.models.models import Forms
+from app.api.questions.utils import get_json_form, serialize_to_json_forms
+from flask import jsonify, make_response, request
 from app.models.notion import DatabaseNotion
+from app.models.models import Forms
+from app.extensions import supabase
 from app.api.questions import bp
 
-@bp.route('/', methods=['GET'])
-def get():
-	data = get_json_form()
-	properties = serealizer_json_forms(data)
+@bp.route('/<string:client_id>', methods=['GET'])
+def get(client_id):
+	data, count = supabase.table('anprotec_clientes_forms').select('*').eq('client_id', client_id).execute()
 
-	form = Forms(title="My first forms", description="This is my first form in supabase storage", properties=properties)
-	response = form.send_json_to_supabase()
+	return make_response(jsonify(data), 200)
 
-	return make_response(jsonify(response.text ), 200)
+@bp.route('/', methods=['POST'])
+def post():
+	dados = request.json
 
-@bp.route('/<string:id>/', methods=['GET'])
-def get_by_id(id):
-	form = DatabaseNotion
+	json_data = get_json_form()
+	result = serialize_to_json_forms(json_data)
 
+	conn = Forms(title=dados["title"], description=dados["description"], client_id=dados["client_id"], schema=result["schema"], uischema=result["uischema"])
+	response = conn.save()
+
+	return make_response(jsonify(response), 200)
 
 @bp.route('client/<int:id>', methods=["GET"])
 def get_client_questions(id):
